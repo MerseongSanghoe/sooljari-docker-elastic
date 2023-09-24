@@ -3,12 +3,12 @@
 ## Pre
 이 절차는 딱 한번만 제대로 하면 된다.
 ```bash
-$ docker-compose up setup
+docker-compose up setup
 ```
 
 ### 제대로 실행되었는지 확인하는 법
 ```bash
-$ docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
+docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
 ```
 위 명령어를 실행해서, 
 
@@ -18,7 +18,7 @@ $ docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
 
 ## 실행
 ```shell
-$ docker-compose up -d
+docker-compose up -d
 ```
 
 ## `.env` 패스워드 변경
@@ -29,10 +29,10 @@ $ docker-compose up -d
 
 ### 1. 비밀번호 초기화
 ```bash
-$ docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
+docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
 ```
 ```bash
-$ docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user kibana_system
+docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user kibana_system
 ```
 
 일단 엘라스틱서치와 키바나만 사용하기 때문에 두 유저 정보의 비밀번호만 초기화해준다.
