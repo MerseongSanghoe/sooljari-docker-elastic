@@ -38,7 +38,7 @@ services:
       MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
       BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
     networks:
-      - elk
+      - backend
     depends_on:
       - elasticsearch
 
@@ -47,6 +47,7 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    container_name: ${ELASTIC_CONTAINER_NAME}
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
@@ -64,29 +65,32 @@ services:
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
     networks:
-      - elk
+      - backend
     restart: unless-stopped
-
-  kibana:
-    build:
-      context: kibana/
-      args:
-        ELASTIC_VERSION: ${ELASTIC_VERSION}
-    volumes:
-      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    
+  search:
+    image: j1001000/sooljari-search-engine:${SEARCH_VERSION}
+    container_name: sooljari-search-engine
     ports:
-      - 5601:5601
+      - 8080:8080
     environment:
-      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - ES_USERNAME=elastic
+      - ES_PASSWORD=${ELASTIC_PASSWORD}
+      - ES_URIS=${ELASTIC_CONTAINER_NAME}:9200
     networks:
-      - elk
+      - backend
+    restart: unless-stopped
     depends_on:
       - elasticsearch
-    restart: unless-stopped
 
 networks:
-  elk:
-    driver: bridge
+  backend:
+    external: true
 
 volumes:
   elasticsearch:

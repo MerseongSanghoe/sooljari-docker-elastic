@@ -16,33 +16,35 @@ docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
 
 `Exited(0)`가 확인되면 정상 실행 완료!
 
-## 실행
-```shell
-docker-compose up -d
-```
-
-## `.env` 패스워드 변경
-`.env`에 적혀있는 패스워드는 기본값이므로,<br>
-패스워드를 난수로 초기화하고 값을 바꿔주자.
-
-바꾼 값을 레포에 커밋하는 바보 짓은 하지말자!
+## `.env` 파일 작성
+`.env.exmaple` 파일을 만들어서, `.env` 파일은 git에 올라가지 않도록 수정했다! 
 
 ### 1. 비밀번호 초기화
 ```bash
-docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
-```
-```bash
-docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user kibana_system
+$ docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
 ```
 
-일단 엘라스틱서치와 키바나만 사용하기 때문에 두 유저 정보의 비밀번호만 초기화해준다.
+일단 엘라스틱서치만 사용하기 때문에 `elastic` 유저 비밀번호만 초기화해준다.
 
-### 2. `.env` 파일 수정
 위 커맨드를 실행하면,
 ```
 Password for the [elastic] user successfully reset.
 New value: (새로운 비밀번호)
 ```
-예시같은 텍스트가 출력되는데, 새로운 비밀번호 값을 복사해다가 `.env` 파일에 넣어주자.
+예시같은 텍스트가 출력되는데, 새로운 비밀번호 값을 복사하자. `ELASTIC_PASSWORD`에 들어갈 값
 
-패스워드 잃어버리면 골치아파질지 모르니 바로바로 바꿔넣어주자.
+### 2. `.env` 파일 생성
+`.env.example` 파일을 복사해서, `.env` 파일을 만들자.
+
+`# change this` 주석이 달린,
+* `ELASTIC_PASSWORD`
+* `DB_NAME`
+* `DB_USERNAME`
+* `DB_PASSWORD`
+
+4가지 항목을 채워주자.
+
+## 실행
+```shell
+$ docker-compose up -d
+```
