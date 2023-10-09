@@ -19,7 +19,7 @@ docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
 ## `.env` 파일 작성
 ### 1. elasticsearch user 비밀번호 초기화
 ```bash
-$ docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
+docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
 ```
 
 일단 엘라스틱서치만 사용하기 때문에 `elastic` 유저 비밀번호만 초기화해준다.
@@ -44,5 +44,5 @@ New value: (새로운 비밀번호)
 
 ## 실행
 ```shell
-$ docker-compose up -d
+docker-compose up -d
 ```
