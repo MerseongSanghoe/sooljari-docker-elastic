@@ -17,9 +17,7 @@ docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}' | grep setup
 `Exited(0)`가 확인되면 정상 실행 완료!
 
 ## `.env` 파일 작성
-`.env.exmaple` 파일을 만들어서, `.env` 파일은 git에 올라가지 않도록 수정했다! 
-
-### 1. 비밀번호 초기화
+### 1. elasticsearch user 비밀번호 초기화
 ```bash
 $ docker-compose exec elasticsearch bin/elasticsearch-reset-password --batch --user elastic
 ```
