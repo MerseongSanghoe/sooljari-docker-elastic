@@ -82,6 +82,9 @@ services:
       - ES_USERNAME=elastic
       - ES_PASSWORD=${ELASTIC_PASSWORD}
       - ES_URIS=${ELASTIC_CONTAINER_NAME}:9200
+      - NEO_URI=${NEO_URI}
+      - NEO_USERNAME=${NEO_USERNAME}
+      - NEO_PASSWORD=${NEO_PASSWORD}
     networks:
       - backend
     restart: unless-stopped
